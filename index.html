@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>司白画的个人主页 - 天容海色本澄清</title>
+  <link rel="icon" href="https://cdn.mriders.cn/img/2026/07/6a57be4a036e9.png" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #0a0a1a 0%, #0f0f2e 40%, #0a0a1a 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+                   "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+      opacity: var(--opacity);
+    }
+
+    @keyframes twinkle {
+      0% { opacity: var(--opacity); transform: scale(1); }
+      100% { opacity: var(--opacity-max); transform: scale(1.3); }
+    }
+
+    .meteor {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: linear-gradient(45deg, rgba(255,255,255,0.8), transparent);
+      border-radius: 50%;
+      animation: meteor 6s ease-in infinite;
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .meteor::before {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent);
+      transform: rotate(-45deg);
+      transform-origin: right;
+      top: 0;
+      right: 0;
+    }
+
+    @keyframes meteor {
+      0% { opacity: 0; transform: translate(0, 0); }
+      10% { opacity: 1; }
+      20% { opacity: 0; transform: translate(-300px, 300px); }
+      100% { opacity: 0; transform: translate(-300px, 300px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 70px 44px;
+      max-width: 620px;
+      width: 100%;
+    }
+
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 42px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      top: -8px; left: -8px; right: -8px; bottom: -8px;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      background: conic-gradient(from 0deg, rgba(100,140,255,0.6), rgba(180,120,255,0.6), rgba(100,200,255,0.6), rgba(100,140,255,0.6)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: ringRotate 10s linear infinite;
+    }
+
+    @keyframes ringRotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 1;
+      border: 3px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 50px rgba(100,140,255,0.18), 0 10px 36px rgba(0,0,0,0.32);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 70px rgba(100,140,255,0.28), 0 14px 48px rgba(0,0,0,0.42);
+    }
+
+    .name {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      color: #f0f0f5;
+      margin-bottom: 8px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .name::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(130,170,255,0.6), transparent);
+      margin: 14px auto 0;
+      border-radius: 1px;
+    }
+
+    /* ===== 仅调整这里 ===== */
+    .bio {
+      font-size: 18px;
+      font-weight: 300;
+      color: #8888aa;
+      font-style: italic;
+      letter-spacing: 1.5px;
+      margin-top: 10px;
+      margin-bottom: 28px;
+      line-height: 1.8;
+    }
+    /* ====================== */
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(130,170,255,0.25), transparent);
+      margin: 0 auto 44px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      transition: all 0.35s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #aab;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(130,170,255,0.3);
+      color: #dde;
+      box-shadow: 0 8px 30px rgba(100,140,255,0.1);
+    }
+
+    .social-btn.email:hover {
+      border-color: rgba(100,160,255,0.4);
+      box-shadow: 0 8px 30px rgba(100,160,255,0.15);
+    }
+
+    .social-btn.bilibili:hover {
+      border-color: rgba(251,114,153,0.4);
+      box-shadow: 0 8px 30px rgba(251,114,153,0.12);
+    }
+
+    .social-btn.blog:hover {
+      border-color: rgba(100,200,150,0.4);
+      box-shadow: 0 8px 30px rgba(100,200,150,0.15);
+    }
+
+    .social-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      text-align: center;
+      padding: 22px 20px;
+      background: linear-gradient(to top, rgba(10,10,26,0.95) 0%, transparent 100%);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer .copyright {
+      color: #555577;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer a {
+      color: #666688;
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+
+    .footer a:hover {
+      color: #8899cc;
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 44px 24px; }
+      .avatar { width: 140px; height: 140px; }
+      .name { font-size: 30px; letter-spacing: 4px; }
+      .bio { font-size: 16px; margin-bottom: 24px; }
+      .social-btn { padding: 11px 24px; font-size: 13px; }
+      .social-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="meteor" style="top: 10%; left: 70%; animation-delay: 2s;"></div>
+  <div class="meteor" style="top: 25%; left: 40%; animation-delay: 8s;"></div>
+
+  <div class="container">
+    <div class="avatar-section">
+      <div class="avatar-wrapper">
+        <div class="avatar-ring"></div>
+        <img class="avatar" src="https://cdn.mriders.cn/img/2025/09/1758895860.jpg" alt="司白画">
+      </div>
+      <h1 class="name">司白画</h1>
+    </div>
+
+    <p class="bio">云散月明谁点缀？天容海色本澄清。</p>
+
+    <div class="divider"></div>
+
+    <div class="social-links">
+      <a class="social-btn email" href="mailto:admin@sibaihua.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="22,4 12,13 2,4"/>
+        </svg>
+        邮箱
+      </a>
+      <a class="social-btn blog" href="https://blog.sibaihua.com/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        博客
+      </a>
+      <a class="social-btn bilibili" href="https://space.bilibili.com/629392165" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path fill="currentColor" d="M17.813 4.653h.854q2.266.08 3.773 1.574Q23.946 7.72 24 9.987v7.36q-.054 2.266-1.56 3.773c-1.506 1.507-2.262 1.524-3.773 1.56H5.333q-2.266-.054-3.773-1.56C.053 19.614.036 18.858 0 17.347v-7.36q.054-2.267 1.56-3.76t3.773-1.574h.774l-1.174-1.12a1.23 1.23 0 0 1-.373-.906q0-.534.373-.907l.027-.027q.4-.373.92-.373t.92.373L9.653 4.44q.107.106.187.213h4.267a.8.8 0 0 1 .16-.213l2.853-2.747q.4-.373.92-.373c.347 0 .662.151.929.4s.391.551.391.907q0 .532-.373.906zM5.333 7.24q-1.12.027-1.88.773q-.76.748-.786 1.894v7.52q.026 1.146.786 1.893t1.88.773h13.334q1.12-.026 1.88-.773t.786-1.893v-7.52q-.026-1.147-.786-1.894t-1.88-.773zM8 11.107q.56 0 .933.373q.375.374.4.96v1.173q-.025.586-.4.96q-.373.375-.933.374c-.56-.001-.684-.125-.933-.374q-.375-.373-.4-.96V12.44q0-.56.386-.947q.387-.386.947-.386m8 0q.56 0 .933.373q.375.374.4.96v1.173q-.025.586-.4.96q-.373.375-.933.374c-.56-.001-.684-.125-.933-.374q-.375-.373-.4-.96V12.44q.025-.586.4-.96q.373-.373.933-.373"></path>
+        </svg>
+        B站
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-inner">
+      <span class="copyright">&copy; 2026 司白画 All rights reserved.</span>
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">闽ICP备2025117082号-2</a>
+    </div>
+  </div>
+
+  <script>
+    const starsContainer = document.getElementById('stars');
+    const starCount = 120;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+      star.style.setProperty('--opacity', (0.2 + Math.random() * 0.5));
+      star.style.setProperty('--opacity-max', (0.5 + Math.random() * 0.5));
+      star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
+      star.style.animationDelay = (Math.random() * 5) + 's';
+      starsContainer.appendChild(star);
+    }
+  </script>
+</body>
+</html>
