@@ -1,2 +1,2 @@
 ## Hi
-联系邮箱：admin@sibaihua.com
+联系邮箱：i@sibh.cn
